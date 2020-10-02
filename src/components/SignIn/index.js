@@ -8,9 +8,11 @@ import * as ROUTES from '../../constants/routes';
 
 const SignInPage = () => (
     <div>
-        <h1>Sign In</h1>
-        <SignInForm />
-        <SignUpLink />
+        <center>
+            <h1>Sign In</h1>
+            <SignInForm />
+            <SignUpLink />
+        </center>
     </div>
 )
 
@@ -53,18 +55,22 @@ class SignInFormBase extends Component {
 
         return(
             <form onSubmit={this.onSubmit.bind(this)}>
-                <input name="email"
-                    value={email}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Email"
-                />
-                <input name="password"
-                    value={password}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Password"
-                />
+                <p>
+                    <input name="email"
+                        value={email}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="Email"
+                    />
+                </p>
+                <p>
+                    <input name="password"
+                        value={password}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="Password"
+                    />
+                </p>
                 <button type="submit">Sign In</button>
 
                 {error && <p>{error.message}</p>}

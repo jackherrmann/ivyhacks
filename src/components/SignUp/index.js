@@ -8,8 +8,10 @@ import * as ROUTES from '../../constants/routes';
 // Render signup page
 const SignUpPage = () => (
     <div>
-        <h1>Sign Up</h1>
-        <SignUpForm />
+        <center>
+            <h1>Sign Up</h1>
+            <SignUpForm />
+        </center>
     </div>
 )
 
@@ -55,18 +57,22 @@ class SignUpFormBase extends Component {
 
         return(
             <form onSubmit={this.onSubmit}>
-                <input name="email"
-                    value={email}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Email"
-                />
-                <input name="password"
-                    value={password}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Password"
-                />
+                <p>
+                    <input name="email"
+                        value={email}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="Email"
+                    />
+                </p>
+                <p>
+                    <input name="password"
+                        value={password}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="Password"
+                    />
+                </p>
                 <button type="submit">Sign Up</button>
 
                 {error && <p>{error.message}</p>}
