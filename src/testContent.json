@@ -1,7 +1,7 @@
 {
     "title": "PizzaHut", 
 
-    "type:": "food", 
+    "type": "food", 
 
     "chips": ["Price: $$", "Type: Chinese", "Distance: 3.1 mi", "Rating: 4/5"], 
 

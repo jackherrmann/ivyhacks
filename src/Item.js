@@ -1,20 +1,28 @@
+// react elements
 import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import testImage from './media/testPicture.jpg'; 
 import { makeStyles } from '@material-ui/core/styles';
-import NotInterestedIcon from '@material-ui/icons/NotInterested'; 
-import CheckIcon from '@material-ui/icons/Check'; 
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
-import FoodIcon from '@material-ui/icons/Fastfood'; 
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
-import testContent from './testContent.json'
 
+
+// icons
+import NotInterestedIcon from '@material-ui/icons/NotInterested'; 
+import CheckIcon from '@material-ui/icons/Check'; 
+import MovieIcon from '@material-ui/icons/Movie'; 
+import FoodIcon from '@material-ui/icons/Fastfood'; 
+import EventIcon from '@material-ui/icons/Event'; 
+import UnknownIcon from '@material-ui/icons/Help'; 
+
+// local files
+import testContent from './testContent.json'; 
+import testImage from './media/testPicture.jpg'; 
 
 
 // these are just till we have real data from APIs
@@ -25,6 +33,19 @@ function getItemInfo() {
     return testContent; 
 }
 // end of the fake data
+function getIcon(itemType) {
+    console.log(itemType); 
+    switch(itemType) {
+        case 'food': 
+            return FoodIcon; 
+        case 'movie':
+            return MovieIcon; 
+        case 'event': 
+            return EventIcon; 
+        default: 
+            return UnknownIcon; 
+    }
+}
 
 
 
@@ -89,8 +110,10 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export default function Item() {
-  const itemImage = getItemImage(); 
-  const itemInfo = getItemInfo(); 
+
+  const itemImage = getItemImage();  
+  const itemInfo = getItemInfo();
+  const ItemTypeIcon = getIcon(itemInfo.type); 
   const classes = useStyles();
 
   const handleYesClick = () => {
@@ -107,7 +130,7 @@ export default function Item() {
         title={itemInfo.title}
         avatar= {
             <Avatar aria-label="itemAvatar">
-                <FoodIcon />
+                <ItemTypeIcon/>
             </Avatar>
         }
         titleTypographyProps={{variant: 'h4'}}
