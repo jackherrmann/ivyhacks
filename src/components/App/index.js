@@ -8,45 +8,24 @@ import SignInPage from '../SignIn';
 import SignUpPage from '../SignUp';
 
 import * as ROUTES from '../../constants/routes';
-import { withFirebase } from '../Firebase';
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
+import { withAuthentication } from '../Session';
 
-        this.state = {
-            authUser: null,
-        };
-    }
+const App = () => {
+    return (
+        <Router>
+        <div>
+            <Navigation />
 
-    componentDidMount() {
-        this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
-            authUser ? 
-                this.setState({ authUser }) 
-                : this.setState( { authUser: null });
-        });
-    }
+            <hr />
 
-    componentWillUnmount() {
-        this.listener();
-    }
-
-    render() {  
-        return (
-            <Router>
-            <div>
-                <Navigation authUser={this.state.authUser}/>
-
-                <hr />
-
-                <Route exact path={ROUTES.LANDING} component={LandingPage} />
-                <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-                <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-                <Route path={ROUTES.HOME} component={Home} />
-            </div>
-            </Router>
-        );
-    }
+            <Route exact path={ROUTES.LANDING} component={LandingPage} />
+            <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+            <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+            <Route path={ROUTES.HOME} component={Home} />
+        </div>
+        </Router>
+    );
 }
 
-export default withFirebase(App);
+export default withAuthentication(App);
