@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
 
+import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
-import { auth } from '../../services/firebase';
-import { signup } from '../../helpers/auth'
 
 // Render signup page
 const SignUpPage = () => (
@@ -13,16 +13,17 @@ const SignUpPage = () => (
     </div>
 )
 
+const INIT_STATE = {
+    email: '',
+    password: '',
+    error: null
+}
+
 // Component for sign up form
-class SignUpForm extends Component {
+class SignUpFormBase extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            username: '',
-            email: '',
-            password: '',
-            error: null
-        }
+        this.state = INIT_STATE;
     }
 
     // Update handler for input elements
@@ -32,22 +33,26 @@ class SignUpForm extends Component {
 
     // Call signup function from ../helpers/auth
     onSubmit = event => {
-        const { username, email, password } = this.state;
-        signup(email, password).catch(
-            error => {
+        const { email, password } = this.state;
+        this.props.firebase
+            .createUser(email, password)
+            .then(user => {
+                this.setState({...INIT_STATE});
+                this.props.history.push(ROUTES.LANDING);
+            })
+            .catch(error => {
                 this.setState({ error });
-            }
-        );
+            })
+        event.preventDefault();
     }
 
     render() {
         const {
-            username,
             email,
             password,
             error
         } = this.state;
-        
+
         return(
             <form onSubmit={this.onSubmit}>
                 <input name="email"
@@ -55,12 +60,6 @@ class SignUpForm extends Component {
                     onChange={this.onChange}
                     type="text"
                     placeholder="Email"
-                />
-                <input name="username"
-                    value={username}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Username"
                 />
                 <input name="password"
                     value={password}
@@ -81,6 +80,8 @@ const SignUpLink = () => (
         Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
     </p>
 );
+
+const SignUpForm = compose(withRouter, withFirebase,)(SignUpFormBase);
 
 export default SignUpPage;
 
